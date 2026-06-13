@@ -17,7 +17,7 @@
 
     <main class="layout">
       <aside class="sidebar">
-        <form id="postForm" class="panel">
+        <form id="postForm" class="panel create-panel">
           <h2>创建帖子</h2>
           <label>
             标题
@@ -31,7 +31,10 @@
         </form>
 
         <section class="panel post-list-panel">
-          <h2>帖子</h2>
+          <div class="section-title">
+            <h2>帖子</h2>
+            <span id="postCount" class="count-pill">0</span>
+          </div>
           <div id="postList" class="post-list"></div>
         </section>
       </aside>
@@ -43,7 +46,7 @@
 
       <section id="postDetail" class="post-detail" hidden>
         <div class="detail-header">
-          <div>
+          <div class="detail-title-block">
             <h2 id="detailTitle"></h2>
             <p id="detailDescription"></p>
             <p id="detailMeta" class="meta"></p>

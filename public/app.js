@@ -7,6 +7,7 @@ const postForm = document.querySelector("#postForm");
 const postTitle = document.querySelector("#postTitle");
 const postDescription = document.querySelector("#postDescription");
 const postList = document.querySelector("#postList");
+const postCount = document.querySelector("#postCount");
 const postDetail = document.querySelector("#postDetail");
 const emptyState = document.querySelector("#emptyState");
 const detailTitle = document.querySelector("#detailTitle");
@@ -73,7 +74,21 @@ function currentPost() {
   return state.posts.find((post) => post.id === state.selectedPostId) || null;
 }
 
+function postIdFromLocation() {
+  const match = window.location.hash.match(/^#\/posts\/([^/]+)$/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function setPostHash(postId) {
+  const nextHash = postId ? `#/posts/${encodeURIComponent(postId)}` : "";
+  if (window.location.hash !== nextHash) {
+    window.location.hash = nextHash;
+  }
+}
+
 function renderPostList() {
+  postCount.textContent = String(state.posts.length);
+
   if (!state.posts.length) {
     postList.innerHTML = '<p class="meta">暂无帖子</p>';
     return;
@@ -81,18 +96,18 @@ function renderPostList() {
 
   postList.innerHTML = "";
   for (const post of state.posts) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `post-item${post.id === state.selectedPostId ? " active" : ""}`;
-    button.dataset.postId = post.id;
+    const link = document.createElement("a");
+    link.className = `post-item${post.id === state.selectedPostId ? " active" : ""}`;
+    link.href = `#/posts/${encodeURIComponent(post.id)}`;
+    link.dataset.postId = post.id;
 
     const title = document.createElement("strong");
     title.textContent = post.title;
     const meta = document.createElement("span");
     meta.textContent = `${post.images.length} 张图片 · ${formatTime(post.updatedAt)}`;
 
-    button.append(title, meta);
-    postList.append(button);
+    link.append(title, meta);
+    postList.append(link);
   }
 }
 
@@ -169,13 +184,16 @@ function render() {
 
 async function loadPosts(preferredPostId = state.selectedPostId) {
   state.posts = await requestJson("/api/posts");
+  const hashPostId = postIdFromLocation();
+  const requestedPostId = preferredPostId || hashPostId;
 
-  if (preferredPostId && state.posts.some((post) => post.id === preferredPostId)) {
-    state.selectedPostId = preferredPostId;
+  if (requestedPostId && state.posts.some((post) => post.id === requestedPostId)) {
+    state.selectedPostId = requestedPostId;
   } else {
     state.selectedPostId = state.posts[0]?.id || null;
   }
 
+  setPostHash(state.selectedPostId);
   render();
 }
 
@@ -193,6 +211,7 @@ async function createPost(event) {
       })
     });
     postForm.reset();
+    setPostHash(post.id);
     await loadPosts(post.id);
     showToast("帖子已创建");
   } catch (error) {
@@ -276,13 +295,21 @@ deletePostButton.addEventListener("click", deletePost);
 refreshButton.addEventListener("click", () => loadPosts().catch((error) => showToast(error.message)));
 
 postList.addEventListener("click", (event) => {
-  const button = event.target.closest(".post-item");
-  if (!button) {
+  const link = event.target.closest(".post-item");
+  if (!link) {
     return;
   }
 
-  state.selectedPostId = button.dataset.postId;
+  state.selectedPostId = link.dataset.postId;
   render();
+});
+
+window.addEventListener("hashchange", () => {
+  const postId = postIdFromLocation();
+  if (postId && state.posts.some((post) => post.id === postId)) {
+    state.selectedPostId = postId;
+    render();
+  }
 });
 
 closeDialogButton.addEventListener("click", () => imageDialog.close());

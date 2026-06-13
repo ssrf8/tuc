@@ -24,6 +24,11 @@ body {
   font-family: Arial, "Microsoft YaHei", sans-serif;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 button,
 input,
 textarea {
@@ -78,9 +83,11 @@ button:disabled {
 
 .layout {
   display: grid;
-  grid-template-columns: 340px minmax(0, 1fr);
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
   gap: 22px;
   padding: 22px;
+  max-width: 1520px;
+  margin: 0 auto;
 }
 
 .sidebar {
@@ -103,9 +110,32 @@ button:disabled {
   padding: 18px;
 }
 
-.panel h2 {
+.panel h2,
+.section-title h2 {
   font-size: 18px;
+  margin: 0;
+}
+
+.create-panel h2 {
   margin-bottom: 14px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.count-pill {
+  min-width: 30px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 13px;
+  text-align: center;
+  padding: 4px 9px;
 }
 
 label {
@@ -135,6 +165,9 @@ textarea {
 .post-list {
   display: grid;
   gap: 8px;
+  max-height: calc(100vh - 360px);
+  overflow: auto;
+  padding-right: 2px;
 }
 
 .post-item {
@@ -146,6 +179,7 @@ textarea {
   color: var(--text);
   text-align: left;
   padding: 12px;
+  border-radius: 8px;
 }
 
 .post-item:hover,
@@ -168,6 +202,10 @@ textarea {
 .post-detail {
   min-width: 0;
   padding: 22px;
+}
+
+.detail-title-block {
+  min-width: 0;
 }
 
 .detail-header {
@@ -213,8 +251,8 @@ textarea {
 
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
 }
 
 .image-card {
@@ -366,6 +404,10 @@ textarea {
   .layout {
     grid-template-columns: 1fr;
     padding: 14px;
+  }
+
+  .post-list {
+    max-height: none;
   }
 
   .detail-header,
