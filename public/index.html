@@ -39,35 +39,37 @@
         </section>
       </aside>
 
-      <section id="emptyState" class="empty-state">
-        <h2>还没有帖子</h2>
-        <p>先创建一个帖子，然后上传图片。</p>
-      </section>
+      <div class="content-pane">
+        <section id="emptyState" class="empty-state">
+          <h2>还没有帖子</h2>
+          <p>先创建一个帖子，然后上传图片。</p>
+        </section>
 
-      <section id="postDetail" class="post-detail" hidden>
-        <div class="detail-header">
-          <div class="detail-title-block">
-            <h2 id="detailTitle"></h2>
-            <p id="detailDescription"></p>
-            <p id="detailMeta" class="meta"></p>
+        <section id="postDetail" class="post-detail" hidden>
+          <div class="detail-header">
+            <div class="detail-title-block">
+              <h2 id="detailTitle"></h2>
+              <p id="detailDescription"></p>
+              <p id="detailMeta" class="meta"></p>
+            </div>
+            <button id="deletePostButton" class="danger-button" type="button">删除帖子</button>
           </div>
-          <button id="deletePostButton" class="danger-button" type="button">删除帖子</button>
-        </div>
 
-        <form id="uploadForm" class="upload-box">
-          <label class="upload-field">
-            图片
-            <input id="imageInput" name="images" type="file" accept="image/*" multiple required>
-          </label>
-          <label class="upload-field">
-            图片文字
-            <textarea id="imageCaption" name="caption" rows="3" placeholder="可选，上传后会显示在图片下方"></textarea>
-          </label>
-          <button type="submit">上传图片</button>
-        </form>
+          <form id="uploadForm" class="upload-box">
+            <label class="upload-field">
+              图片
+              <input id="imageInput" name="images" type="file" accept="image/*" multiple required>
+            </label>
+            <label class="upload-field">
+              图片文字
+              <textarea id="imageCaption" name="caption" rows="3" placeholder="可选，上传后会显示在图片下方"></textarea>
+            </label>
+            <button type="submit">上传图片</button>
+          </form>
 
-        <div id="imageGrid" class="image-grid"></div>
-      </section>
+          <div id="imageGrid" class="image-grid"></div>
+        </section>
+      </div>
     </main>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
