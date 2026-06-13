@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图片帖子</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>图片帖子</h1>
+        <p>无需登录的自用图片分类浏览站</p>
+      </div>
+      <button id="refreshButton" class="secondary-button" type="button">刷新</button>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <form id="postForm" class="panel">
+          <h2>创建帖子</h2>
+          <label>
+            标题
+            <input id="postTitle" name="title" maxlength="80" required placeholder="例如：旅行照片">
+          </label>
+          <label>
+            备注
+            <textarea id="postDescription" name="description" maxlength="500" rows="4" placeholder="可选"></textarea>
+          </label>
+          <button type="submit">创建</button>
+        </form>
+
+        <section class="panel post-list-panel">
+          <h2>帖子</h2>
+          <div id="postList" class="post-list"></div>
+        </section>
+      </aside>
+
+      <section id="emptyState" class="empty-state">
+        <h2>还没有帖子</h2>
+        <p>先创建一个帖子，然后上传图片。</p>
+      </section>
+
+      <section id="postDetail" class="post-detail" hidden>
+        <div class="detail-header">
+          <div>
+            <h2 id="detailTitle"></h2>
+            <p id="detailDescription"></p>
+            <p id="detailMeta" class="meta"></p>
+          </div>
+          <button id="deletePostButton" class="danger-button" type="button">删除帖子</button>
+        </div>
+
+        <form id="uploadForm" class="upload-box">
+          <input id="imageInput" name="images" type="file" accept="image/*" multiple required>
+          <button type="submit">上传图片</button>
+        </form>
+
+        <div id="imageGrid" class="image-grid"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <dialog id="imageDialog" class="image-dialog">
+      <button id="closeDialogButton" class="dialog-close" type="button" aria-label="关闭">×</button>
+      <img id="dialogImage" alt="">
+    </dialog>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

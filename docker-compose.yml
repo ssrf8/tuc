@@ -1,0 +1,13 @@
+services:
+  image-posts:
+    build: .
+    container_name: image-posts
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+      - MAX_UPLOAD_MB=25
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
