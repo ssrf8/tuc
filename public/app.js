@@ -15,6 +15,7 @@ const detailMeta = document.querySelector("#detailMeta");
 const deletePostButton = document.querySelector("#deletePostButton");
 const uploadForm = document.querySelector("#uploadForm");
 const imageInput = document.querySelector("#imageInput");
+const imageCaption = document.querySelector("#imageCaption");
 const imageGrid = document.querySelector("#imageGrid");
 const refreshButton = document.querySelector("#refreshButton");
 const toast = document.querySelector("#toast");
@@ -124,13 +125,22 @@ function renderDetail() {
 
     const img = document.createElement("img");
     img.src = image.url;
-    img.alt = image.originalName || "图片";
+    img.alt = image.caption || image.originalName || "图片";
     img.loading = "lazy";
     img.addEventListener("click", () => {
       dialogImage.src = image.url;
-      dialogImage.alt = image.originalName || "图片";
+      dialogImage.alt = image.caption || image.originalName || "图片";
       imageDialog.showModal();
     });
+
+    if (image.caption) {
+      const caption = document.createElement("p");
+      caption.className = "image-caption";
+      caption.textContent = image.caption;
+      card.append(img, caption);
+    } else {
+      card.append(img);
+    }
 
     const actions = document.createElement("div");
     actions.className = "image-actions";
@@ -147,7 +157,7 @@ function renderDetail() {
     deleteButton.addEventListener("click", () => deleteImage(image.id));
 
     actions.append(name, deleteButton);
-    card.append(img, actions);
+    card.append(actions);
     imageGrid.append(card);
   }
 }
@@ -208,6 +218,7 @@ async function uploadImages(event) {
     for (const file of imageInput.files) {
       formData.append("images", file);
     }
+    formData.append("caption", imageCaption.value.trim());
 
     const response = await fetch(`/api/posts/${post.id}/images`, {
       method: "POST",

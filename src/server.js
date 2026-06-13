@@ -176,10 +176,12 @@ app.post("/api/posts/:postId/images", upload.array("images", 50), async (req, re
     }
 
     const now = new Date().toISOString();
+    const caption = String(req.body.caption || "").trim();
     const images = (req.files || []).map((file) => ({
       id: crypto.randomUUID(),
       filename: file.filename,
       originalName: file.originalname,
+      caption,
       size: file.size,
       mimeType: file.mimetype,
       url: `/uploads/${encodeURIComponent(file.filename)}`,

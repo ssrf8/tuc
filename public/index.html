@@ -52,7 +52,14 @@
         </div>
 
         <form id="uploadForm" class="upload-box">
-          <input id="imageInput" name="images" type="file" accept="image/*" multiple required>
+          <label class="upload-field">
+            图片
+            <input id="imageInput" name="images" type="file" accept="image/*" multiple required>
+          </label>
+          <label class="upload-field">
+            图片文字
+            <textarea id="imageCaption" name="caption" maxlength="1000" rows="3" placeholder="可选，上传后会显示在图片下方"></textarea>
+          </label>
           <button type="submit">上传图片</button>
         </form>
 
